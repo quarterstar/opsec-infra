@@ -1,0 +1,92 @@
+ * WARNING: UNFINISHED *
+
+This is the infrastructure that I use to achieve my opsec, because security through obscurity does not work.
+
+This repository purely saves as documentation of my setup - issues and PRs will not be read or accepted.
+
+Infrastructure Syntax:
+ - All logical connections are symbolized with "*".
+ - Comments are encapsulated in "[]" braces (square brackets).
+
+Revision 1.0
+
+-----BEGIN HOME NETWORK INFRASTRUCTURE-----
+
+                                -----
+                                |PC1|
+                                -----
+                                  |
+                                  |
+                          -----------------
+                          |OpenBSD Host OS|
+                          -----------------
+                                  |
+                              ----------
+                              |NixOS VM|
+                              ----------
+                                  |
+                      ------------|--------------
+                      |                         |
+                      |                 ------------------
+                      |                 |Regular Activity|
+                      |                 ------------------
+                 ------------               |
+                 |Torrenting|               |
+                 ------------               |----------------------------------------------|
+                      |                         |                                          |
+                      |                         |                                          |
+                      |                    -----*------------------------------------      |
+                      |                    |Tor Network (The Onion Router)          |      |
+                      |                    --------------------*---------------------      |
+                      |                                        |                           | [The host may connect to the Internet]
+                      |                                        |                           |  with or without Tor.]
+                --------------------                           |                           |
+                |    I2P           |                           |                           |
+                |(Invisible        |                           |                           |
+                | Internet Project)|                           |                           |
+                --------------------                           |                           |
+                      |                                        |                           |
+                      |                                        |                           |
+                      |                           ----------------------------             |
+                      |                           |                          |             |
+                      |                     ------*------                ----*-----        |
+                      |                |----|Elite Proxy|                |No Proxy|        |  [Most websites do not block Tor IP.]
+                      |                |    ------*------                -----*----        |
+                      |                |          |                                 |      |
+                      |                |          |                                 |      |  [As seen below, Tor over VPN is achieved with]
+                      |                |          |    -------------                |      |  [Mullvad, so websites see Tor's IP address.]
+                      |             ---*----      -----|Proxychains|-----------------      |  [A proxy like proxysite.com may be used to]
+                      |             |Reddit|           -------------   |                   |  [access websites like Reddit.]
+                      |             --------                           |                   |
+                      |                                                |                   |
+                      |------------------------------------------------|--------------------  [To prevent proxy SSL session hijacking, I]
+                                                                       |                      [use 2FA on all websites that need to be proxied]
+                                                                       |                      [to circumvent Tor IP restrictions and I only log]
+                                                             ----------*-----------           [into the email server over Tor without the proxy.]
+                                                             | External Interface |
+                                                             --------*-------------           [This method is called proxychaining.]
+                                                                     |
+                                                                     |                        
+                                                                     |                  
+                                                                     |                 
+                                          --------   --------   -----*--               
+                                          *Nixter*---*Laptop*---*Switch|
+                                          --------   --------   --------
+                                             |
+                                             |   [Nixter Router: https://github.com/quarter/nixter]
+                                             |
+                                       ------*----------------
+                                       |Firewall             |
+                                       |* MAC filtering      |
+                                       |* DNS blocklist      |
+                                       |* Anti-DNS/IPv6 leaks|
+                                       ------*----------------
+                                             |
+                                             |
+                                             |          |-----------|              |------------|
+                                             -----------*Mullvad VPN*--------------*The Internet*
+                                                        |-----------|              |------------|
+
+                                                     [Router-level VPN]
+
+-----END HOME NETWORK INFRASTRUCTURE-----
